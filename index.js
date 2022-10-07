@@ -8,7 +8,6 @@ const allBtns = document.querySelectorAll(".rate-button");
 
 //=============================================================
 
-
 //--------------------truncate & add a link to each park display paragraph
 // const descriptions = document.querySelectorAll(".description-display");
 // for (let desc of descriptions.values()) {
@@ -87,13 +86,25 @@ const allBtns = document.querySelectorAll(".rate-button");
 // });
 //-------------------------------
 
+//----------------------DOMContentLoaded Event Handler---------------------------------------------
+// console.log("Before!");
 
+// window.addEventListener("DOMContentLoaded", (event) => {
+//   console.log("Loaded!");
+// });
 
-//=======================================Sort Parks List by Name=============================================
+// console.log("After!");
+//-------------------------------------------------------------------------------------------------
 
-// Select the `nameSorter` link
-const nameSorter = document.querySelector("#name-sorter");
+/*===========================================================================================================
 
+                      LOAD FUNCTIONS WHEN THE HTML IS FULLY PARSED & LOADED INTO THE DOM
+
+===========================================================================================================*/
+
+// Declare handler and support functions here
+
+//----------Sorting Functions--------------------
 // Function for sorting by name
 const sortByName = (parkA, parkB) => {
   const parkAName = parkA.querySelector("h2").innerText;
@@ -107,6 +118,23 @@ const sortByName = (parkA, parkB) => {
   }
 };
 
+//function sorting by rating
+const sortByRating = (parkA, parkB) => {
+  const parkAVal = parkA.querySelector(".rating-display .value").innerText;
+  let parkARating = parseFloat(parkAVal);
+  const parkBVal = parkB.querySelector(".rating-display .value").innerText;
+  let parkBRating = parseFloat(parkBVal);
+  if (parkARating < parkBRating) {
+    return 1;
+  } else if (parkARating > parkBRating) {
+    return -1;
+  } else {
+    return 0;
+  }
+};
+//-----------------------------------------------
+
+//-------------Support Functions-----------------
 // Function for handling the `nameSorter` click
 const nameSorterClickHandler = (event) => {
   event.preventDefault();
@@ -132,30 +160,6 @@ const nameSorterClickHandler = (event) => {
   });
 };
 
-// Add an event listener
-nameSorter.addEventListener("click", nameSorterClickHandler);
-//===========================================================================================================
-
-//================================Sort Parks by Rating=======================================================
-
-//select the rating sorter link
-const ratingSorter = document.querySelector("#rating-sorter");
-
-//function sorting by rating
-const sortByRating = (parkA, parkB) => {
-  const parkAVal = parkA.querySelector(".rating-display .value").innerText;
-  let parkARating = parseFloat(parkAVal);
-  const parkBVal = parkB.querySelector(".rating-display .value").innerText;
-  let parkBRating = parseFloat(parkBVal);
-  if (parkARating < parkBRating) {
-    return 1;
-  } else if (parkARating > parkBRating) {
-    return -1;
-  } else {
-    return 0;
-  }
-};
-
 //function for handling the "ratingSorter" click
 const ratingSorterClickHandler = (event) => {
   event.preventDefault();
@@ -179,8 +183,24 @@ const ratingSorterClickHandler = (event) => {
   ratingsArray.forEach((park) => {
     main.appendChild(park);
   });
-}
+};
+//-----------------------------------------------
 
-//Add an event listener
-ratingSorter.addEventListener("click", ratingSorterClickHandler);
-//===========================================================================================================
+//-----Code that runs once the DOM is loaded-----
+const main =() => {
+  // Select the `nameSorter` link
+  const nameSorter = document.querySelector("#name-sorter");
+
+  // Add an event listener
+  nameSorter.addEventListener("click", nameSorterClickHandler);
+
+  // Select the `ratingSorter` link
+  const ratingSorter = document.querySelector("#rating-sorter");
+
+  // Add an event listener
+  ratingSorter.addEventListener("click", ratingSorterClickHandler);
+};
+
+// Add event listener for `DOMContentLoaded`
+window.addEventListener("DOMContentLoaded", main);
+//-----------------------------------------------
